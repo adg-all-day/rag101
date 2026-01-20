@@ -9,7 +9,7 @@ This project implements a minimal but realistic RAG system matching the high-lev
 ## 1. Setup
 
 ```bash
-cd rag
+cd rag101  # or the cloned repo directory
 python -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\\Scripts\\activate
 pip install -e .
@@ -70,6 +70,22 @@ Environment variables (optional):
 - `EMBEDDING_MODEL`: sentence-transformers model name (default: `sentence-transformers/all-MiniLM-L6-v2`)
 - `EMBEDDING_BATCH_SIZE`: batch size for embedding (default: `32`)
 - `RETRIEVAL_TOP_K`: default `top_k` if not passed (default: `10`)
+- `RERANK_TOP_K`: how many retrieved chunks to rerank when reranking is enabled (default: `5`)
+
+Hybrid / reranking toggles:
+
+- `USE_HYBRID`: set to `true` to enable hybrid dense + BM25 retrieval (default: `false`)
+- `HYBRID_DENSE_WEIGHT`: weight for dense cosine similarity in fusion (default: `0.7`)
+- `HYBRID_SPARSE_WEIGHT`: weight for BM25 score in fusion (default: `0.3`)
+- `USE_RERANK`: set to `true` to enable cross-encoder reranking (default: `false`)
+- `RERANK_MODEL`: sentence-transformers cross-encoder model name (default: `cross-encoder/ms-marco-MiniLM-L-6-v2`)
+
+Caching:
+
+- `ENABLE_QUERY_CACHE`: cache full query responses in-memory (default: `true`)
+- `ENABLE_EMBEDDING_CACHE`: cache query embeddings in-memory (default: `true`)
+- `QUERY_CACHE_SIZE`: max cached queries (default: `1024`)
+- `EMBEDDING_CACHE_SIZE`: max cached query embeddings (default: `1024`)
 
 You can create a `.env` file in the project root to set them.
 
@@ -77,10 +93,9 @@ You can create a `.env` file in the project root to set them.
 
 This skeleton is intentionally focused on the **retrieval** half of RAG:
 
-- Add an LLM and generation prompts in a new `app/generation.py`.
-- Implement hybrid search (BM25 + vectors) and reranking modules.
-- Add richer document loaders (PDF, HTML, web, APIs).
-- Implement caching, evaluation, and monitoring as separate services or modules.
+- Hybrid search: dense FAISS + BM25 (enabled via `USE_HYBRID=true`)
+- Optional cross-encoder reranking for higher precision (`USE_RERANK=true`)
+- Simple in-process caching for embeddings and query responses
+- You can still add an LLM and prompts in a new `app/generation.py`, richer document loaders, and evaluation / monitoring modules.
 
-The current layout and abstractions (`loader`, `chunking`, `embeddings`, `vector_store`, `query_pipeline`) are designed so you can plug in those advanced components incrementally.
-
+The current layout and abstractions (`loader`, `chunking`, `embeddings`, `vector_store`, `query_pipeline`) are designed so you can plug in advanced components incrementally.

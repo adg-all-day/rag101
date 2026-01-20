@@ -6,6 +6,7 @@ numpy
 faiss-cpu
 sentence-transformers
 tqdm
+rank-bm25
 
 [dev]
 pytest

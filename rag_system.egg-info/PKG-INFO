@@ -11,6 +11,7 @@ Requires-Dist: numpy
 Requires-Dist: faiss-cpu
 Requires-Dist: sentence-transformers
 Requires-Dist: tqdm
+Requires-Dist: rank-bm25
 Provides-Extra: dev
 Requires-Dist: pytest; extra == "dev"
 Requires-Dist: httpx; extra == "dev"

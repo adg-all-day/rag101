@@ -12,6 +12,7 @@ dependencies = [
   "faiss-cpu",
   "sentence-transformers",
   "tqdm",
+  "rank-bm25",
 ]
 
 [project.optional-dependencies]
