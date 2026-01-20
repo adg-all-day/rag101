@@ -4,6 +4,7 @@ app/__init__.py
 app/chunking.py
 app/config.py
 app/embeddings.py
+app/generation.py
 app/index_pipeline.py
 app/loader.py
 app/main.py

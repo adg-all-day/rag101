@@ -13,6 +13,7 @@ dependencies = [
   "sentence-transformers",
   "tqdm",
   "rank-bm25",
+  "openai>=1.44.0",
 ]
 
 [project.optional-dependencies]

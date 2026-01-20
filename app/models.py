@@ -44,3 +44,22 @@ class QueryResponse(BaseModel):
     query: str
     results: List[RetrievedChunk]
 
+
+class SourceCitation(BaseModel):
+    source_id: int
+    doc_title: Optional[str] = None
+    source: Optional[str] = None
+    page_number: Optional[int] = None
+    section: Optional[str] = None
+    score: float
+
+
+class AnswerRequest(BaseModel):
+    query: str
+    top_k: int | None = None
+
+
+class AnswerResponse(BaseModel):
+    query: str
+    answer: str
+    sources: List[SourceCitation]

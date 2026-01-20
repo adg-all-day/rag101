@@ -40,6 +40,14 @@ class CacheConfig(BaseModel):
     embedding_cache_size: int = int(os.getenv("EMBEDDING_CACHE_SIZE", "1024"))
 
 
+class LLMConfig(BaseModel):
+    provider: str = os.getenv("LLM_PROVIDER", "openai")
+    model: str = os.getenv("LLM_MODEL", "gpt-4o-mini")
+    temperature: float = float(os.getenv("LLM_TEMPERATURE", "0.1"))
+    max_tokens: int = int(os.getenv("LLM_MAX_TOKENS", "512"))
+    api_key_env: str = os.getenv("LLM_API_KEY_ENV", "OPENAI_API_KEY")
+
+
 class ApiConfig(BaseModel):
     host: str = os.getenv("API_HOST", "0.0.0.0")
     port: int = int(os.getenv("API_PORT", "8000"))
@@ -50,6 +58,7 @@ class Settings(BaseModel):
     embeddings: EmbeddingConfig = EmbeddingConfig()
     retrieval: RetrievalConfig = RetrievalConfig()
     cache: CacheConfig = CacheConfig()
+    llm: LLMConfig = LLMConfig()
     api: ApiConfig = ApiConfig()
 
 

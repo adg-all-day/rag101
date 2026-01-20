@@ -3,7 +3,8 @@ from __future__ import annotations
 from fastapi import FastAPI, HTTPException
 
 from .config import settings
-from .models import QueryRequest, QueryResponse
+from .generation import answer_question
+from .models import AnswerRequest, AnswerResponse, QueryRequest, QueryResponse
 from .query_pipeline import run_query
 from .vector_store import load_index
 
@@ -37,6 +38,15 @@ def query(req: QueryRequest) -> QueryResponse:
         raise HTTPException(status_code=404, detail="Index not found. Run indexing first.")
 
 
+@app.post("/answer", response_model=AnswerResponse)
+def answer(req: AnswerRequest) -> AnswerResponse:
+    try:
+        return answer_question(req)
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Index not found. Run indexing first.")
+    except RuntimeError as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
 def get_app() -> FastAPI:
     return app
-

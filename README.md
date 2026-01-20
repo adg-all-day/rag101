@@ -57,6 +57,15 @@ curl -X POST http://localhost:8000/query \
   -d '{"query": "What is this corpus about?", "top_k": 5}'
 ```
 
+To get a generated answer with citations:
+
+```bash
+export OPENAI_API_KEY=sk-...   # or set according to LLM_API_KEY_ENV
+curl -X POST http://localhost:8000/answer \
+  -H "Content-Type: application/json" \
+  -d '{"query": "What is this corpus about?", "top_k": 5}'
+```
+
 You can also check basic stats:
 
 ```bash
@@ -86,6 +95,14 @@ Caching:
 - `ENABLE_EMBEDDING_CACHE`: cache query embeddings in-memory (default: `true`)
 - `QUERY_CACHE_SIZE`: max cached queries (default: `1024`)
 - `EMBEDDING_CACHE_SIZE`: max cached query embeddings (default: `1024`)
+
+LLM:
+
+- `LLM_PROVIDER`: currently `openai` is supported (default: `openai`)
+- `LLM_MODEL`: chat model for generation (default: `gpt-4o-mini`)
+- `LLM_TEMPERATURE`: sampling temperature for answers (default: `0.1`)
+- `LLM_MAX_TOKENS`: max tokens for the answer (default: `512`)
+- `LLM_API_KEY_ENV`: name of env var holding the API key (default: `OPENAI_API_KEY`)
 
 You can create a `.env` file in the project root to set them.
 
