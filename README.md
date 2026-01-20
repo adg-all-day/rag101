@@ -66,6 +66,14 @@ curl -X POST http://localhost:8000/answer \
   -d '{"query": "What is this corpus about?", "top_k": 5}'
 ```
 
+To also see the raw retrieved chunks alongside the answer, set `include_chunks`:
+
+```bash
+curl -X POST http://localhost:8000/answer \
+  -H "Content-Type: application/json" \
+  -d '{"query": "What is this corpus about?", "top_k": 5, "include_chunks": true}'
+```
+
 You can also check basic stats:
 
 ```bash

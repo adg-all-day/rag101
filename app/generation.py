@@ -37,7 +37,7 @@ def _get_client() -> OpenAI:
 def _build_context_and_citations(
     query: str,
     top_k: int | None = None,
-) -> Tuple[str, List[SourceCitation]]:
+) -> Tuple[str, List[SourceCitation], QueryRequest]:
     retrieval_req = QueryRequest(query=query, top_k=top_k)
     retrieval_res = run_query(retrieval_req)
 
@@ -70,11 +70,11 @@ def _build_context_and_citations(
         )
 
     context_str = "\n".join(lines)
-    return context_str, citations
+    return context_str, citations, retrieval_req
 
 
 def answer_question(req: AnswerRequest) -> AnswerResponse:
-    context, citations = _build_context_and_citations(req.query, top_k=req.top_k)
+    context, citations, retrieval_req = _build_context_and_citations(req.query, top_k=req.top_k)
 
     system_prompt = (
         "You are a helpful assistant that answers questions based on the "
@@ -108,9 +108,14 @@ def answer_question(req: AnswerRequest) -> AnswerResponse:
 
     answer_text = completion.choices[0].message.content or ""
 
+    retrieval_results = None
+    if req.include_chunks:
+        # Reuse the retrieval request to get structured chunk results.
+        retrieval_results = run_query(retrieval_req).results
+
     return AnswerResponse(
         query=req.query,
         answer=answer_text,
         sources=citations,
+        retrieval_results=retrieval_results,
     )
-

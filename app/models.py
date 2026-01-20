@@ -57,9 +57,11 @@ class SourceCitation(BaseModel):
 class AnswerRequest(BaseModel):
     query: str
     top_k: int | None = None
+    include_chunks: bool = False
 
 
 class AnswerResponse(BaseModel):
     query: str
     answer: str
     sources: List[SourceCitation]
+    retrieval_results: Optional[List[RetrievedChunk]] = None
