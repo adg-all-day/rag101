@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+pydantic>=2.0
+python-dotenv
+numpy
+faiss-cpu
+sentence-transformers
+tqdm
+
+[dev]
+pytest
+httpx

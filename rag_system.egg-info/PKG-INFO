@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: rag-system
+Version: 0.1.0
+Summary: Production-style RAG system with indexing and query pipelines
+Requires-Python: >=3.10
+Requires-Dist: fastapi
+Requires-Dist: uvicorn[standard]
+Requires-Dist: pydantic>=2.0
+Requires-Dist: python-dotenv
+Requires-Dist: numpy
+Requires-Dist: faiss-cpu
+Requires-Dist: sentence-transformers
+Requires-Dist: tqdm
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: httpx; extra == "dev"
